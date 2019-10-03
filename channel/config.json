@@ -1,0 +1,10 @@
+{
+    "LocalTcpServer": {
+        "Host":"127.0.0.1",
+        "Port":"1921"
+    },
+    "RemoteTcpServer": {
+        "Host":"127.0.0.1",
+        "Port":"4522"
+    }
+}
