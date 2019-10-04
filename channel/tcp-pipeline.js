@@ -6,16 +6,33 @@ var codec = require('./tcp-codec.js');
 var clientSocket;
 var serverSocket;
 
-var downstreamBuffer = new Buffer('');
+var downstreamBuffer;
+var upstreamBuffer = [];
 
 var pipeline = {};
 
 var decodeData = function(downstreamData, callback) {
-    downstreamBuffer.fill(downstreamData, downstreamBuffer.length);
+    if (downstreamBuffer) {
+        downstreamBuffer = Buffer.concat([downstreamData]);
+    } else {
+        downstreamBuffer = downstreamData;
+    }
 
     codec.delimiterDecoder(downstreamBuffer, function(downstreamData, packetData, callback) {
-        console.log('---------------> packetData: ' + packetData);
-        serverSocket.write(packetData);
+        if (packetData) {
+            console.log('---------------> delimiterDecoder packetData: ' + packetData);
+            serverSocket.write(packetData);
+        }
+    });
+}
+
+var encodeData = function(upstreamPacket, callback) {
+    upstreamBuffer.push(upstreamPacket);
+
+    upstreamBuffer.forEach(function(packet) {
+        codec.delimiterEncoder(packet, function(packetData) {
+            callback(packetData);
+        });
     });
 }
 
@@ -26,12 +43,12 @@ pipeline.open = function (clientSocket, serverHost, serverPort, callback) {
             console.log('---------------> data: ' + data);
 
             if (serverSocket) {
-                serverSocket.write(data);
-                // decodeData(data, null);
+                // serverSocket.write(data);
+                decodeData(data, null);
             } else {
                 serverSocket = net.connect(serverPort, serverHost, function() {
-                    serverSocket.write(data);
-                    // decodeData(data, null);
+                    // serverSocket.write(data);
+                    decodeData(data, null);
                 });
                 serverSocket.on('data', function(data) {
                     clientSocket.write(data);
@@ -98,6 +115,12 @@ pipeline.writeToServer = function (data) {
     }
 }
 
+pipeline.writePacketToServer = function (packet) {
+    encodeData(packet, function(packetData) {
+        pipeline.writeToServer(packetData);
+    });
+}
+
 pipeline.writeToClient = function (data) {
     try {
         if (clientSocket) {
@@ -106,6 +129,12 @@ pipeline.writeToClient = function (data) {
     } catch (error) {
         console.error('---------------> writeToClient has error ' + error);
     }
+}
+
+pipeline.writePacketToClient = function (packet) {
+    encodeData(packet, function(packetData) {
+        pipeline.writeToClient(packetData);
+    });
 }
 
 module.exports = pipeline;

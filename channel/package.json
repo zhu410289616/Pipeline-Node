@@ -1,0 +1,20 @@
+{
+  "name": "channel",
+  "version": "1.0.0",
+  "description": "channel",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "tcp",
+    "udp",
+    "http",
+    "https"
+  ],
+  "author": "zhuruhong",
+  "license": "MIT",
+  "dependencies": {
+    "log4js": "^4.0.2"
+  }
+}

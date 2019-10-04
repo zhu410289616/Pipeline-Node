@@ -1,7 +1,7 @@
 var net = require('net');
 var logger = require('log4js').getLogger('channel');
-var config = require('./config.json');
-var pipeline = require('./tcp-pipeline');
+var config = require('./tcp-config.json');
+var pipeline = require('./tcp-pipeline.js');
 // var channel = require('./channel.js');
 
 var localTcpHost = config['LocalTcpServer']['Host'];
