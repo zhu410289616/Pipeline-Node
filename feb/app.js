@@ -1,10 +1,37 @@
 // Modules to control application life and create native browser window
-const {app, BrowserWindow} = require('electron')
+const {app, BrowserWindow, Tray} = require('electron')
 const path = require('path')
+const {Menu} = require('electron')
+const contextMenu = require('electron-context-menu')
+
+contextMenu({
+  prepend: (defaultActions, params, browserWindow) => [
+		{
+			label: 'Rainbow',
+			// Only show it when right-clicking images
+			visible: params.mediaType === 'image'
+		},
+		{
+			label: 'Search Google for “{selection}”',
+			// Only show it when right-clicking text
+			visible: params.selectionText.trim().length > 0,
+			click: () => {
+				shell.openExternal(`https://google.com/search?q=${encodeURIComponent(params.selectionText)}`);
+			}
+		}
+	]
+})
 
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.
 let mainWindow
+
+const template = [
+  {
+    label: "自定义菜单",
+    submenu: [{ label: "菜单项-1" }, { label: "菜单项-2" }]
+  }
+]
 
 function createWindow () {
   // Create the browser window.
@@ -12,9 +39,13 @@ function createWindow () {
     width: 800,
     height: 600,
     webPreferences: {
-      preload: path.join(__dirname, 'preload.js')
+      preload: path.join(__dirname, 'preload.js'),
+      nodeIntegration: true
     }
   })
+
+  //
+  mainWindow.setMenu(Menu.buildFromTemplate(template))
 
   // and load the index.html of the app.
   mainWindow.loadFile('index.html')
@@ -51,3 +82,4 @@ app.on('activate', function () {
 
 // In this file you can include the rest of your app's specific main process
 // code. You can also put them in separate files and require them here.
+const test = require('./main_process/index')

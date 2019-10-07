@@ -3,12 +3,110 @@
   <head>
     <meta charset="UTF-8">
     <title>Hello World!</title>
+
+    <!-- Stylesheets -->
+    <link rel="stylesheet" href="./css/photon.min.css">
+
+    <!-- Javascript -->
+    <!-- <script src="./js/menu.js" charset="utf-8"></script> -->
+    <script>
+      // Photon.__baseDir = "/myPhotonMaster";
+    </script>
   </head>
   <body>
-    <h1>Hello World!</h1>
-    We are using Node.js <span id="node-version"></span>,
-    Chromium <span id="chrome-version"></span>,
-    and Electron <span id="electron-version"></span>.
+
+    <ph-window>
+  <!--Top header bar here-->
+  <tool-bar type="header">
+    Toolbar Header
+  </tool-bar>
+  <!--Window content here-->
+  <window-content>
+    Window Content
+  </window-content>
+  <!--Bottom footer bar here-->
+  <tool-bar type="footer">
+    Footer Header
+  </tool-bar>
+</ph-window>
+    <div class="window">
+        <header class="toolbar toolbar-header">
+            <div class="toolbar-actions">
+              <div class="btn-group">
+                <button class="btn btn-default">
+                  <span class="icon icon-home"></span>
+                </button>
+                <button class="btn btn-default">
+                  <span class="icon icon-folder"></span>
+                </button>
+      
+              </div>
+            </div>
+        </header>
+
+        <div class="tab-group">
+            <div class="tab-item">
+              <span class="icon icon-cancel icon-close-tab"></span>
+              Tab
+            </div>
+            <div class="tab-item active">
+              <span class="icon icon-cancel icon-close-tab"></span>
+              Tab active
+            </div>
+            <div class="tab-item">
+              <span class="icon icon-cancel icon-close-tab"></span>
+              Tab
+            </div>
+            <div class="tab-item tab-item-fixed">
+              <span class="icon icon-plus"></span>
+            </div>
+          </div>
+          
+        <nav class="nav-group">
+            <h5 class="nav-group-title">Favorites</h5>
+            <a class="nav-group-item active">
+              <span class="icon icon-home"></span>
+              connors
+            </a>
+            <span class="nav-group-item">
+              <span class="icon icon-download"></span>
+              Downloads
+            </span>
+            <span class="nav-group-item">
+              <span class="icon icon-folder"></span>
+              Documents
+            </span>
+            <span class="nav-group-item">
+              <span class="icon icon-signal"></span>
+              AirPlay
+            </span>
+            <span class="nav-group-item">
+              <span class="icon icon-print"></span>
+              Applications
+            </span>
+            <span class="nav-group-item">
+              <span class="icon icon-cloud"></span>
+              Desktop
+            </span>
+          </nav>
+
+        <div>
+            <h1>Hello World!</h1>
+            <button class="btn btn-default">Default</button>
+<button class="btn btn-primary">Primary</button>
+<button class="btn btn-positive">Positive</button>
+<button class="btn btn-negative">Negative</button>
+<button class="btn btn-warning">Warning</button>
+        </div>
+
+        <header class="toolbar toolbar-footer">
+            <h1 class="title">We are using Node.js <span id="node-version"></span>,
+              Chromium <span id="chrome-version"></span>,
+              and Electron <span id="electron-version"></span>.</h1>
+        </header>
+
+        
+    </div>
 
     <!-- You can also require other files to run in this process -->
     <script src="./renderer.js"></script>
